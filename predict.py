@@ -17,6 +17,10 @@ import yaml
 MODEL_SETUP_CONFIG = "/src/model_setup.yaml"
 
 
+class Embedding(BaseModel):
+    embedding: List[float]
+
+
 def maybe_download(path):
     if path.startswith("gs://"):
         output_path = "/tmp/weights.tensors"
@@ -94,7 +98,7 @@ class Predictor(BasePredictor):
         text: str = Input(default=None, description="A single string to encode."),
         text_batch: str = Input(default=None, description="A JSON-formatted list of strings to encode."),
 
-    ) -> List[List[float]]:
+    ) -> List[Embedding]:
         """
         Encode a single `text` or a `text_batch` into embeddings.
 
@@ -111,9 +115,6 @@ class Predictor(BasePredictor):
             A list of embeddings ordered the same as the inputs.
         """
 
-        # TODO: 
-        # * Push model
-        # * Update README
 
 
         if text:
@@ -121,13 +122,12 @@ class Predictor(BasePredictor):
 
         elif text_batch:
             docs = json.loads(text_batch)
-            print(docs)
 
         embeddings = self.model.encode(docs)
 
         outputs = []
         for embedding in embeddings:
-            outputs.append([float(x) for x in embedding.tolist()])
+            outputs.append(Embedding(embedding=[float(x) for x in embedding.tolist()]))
 
         return outputs
 
