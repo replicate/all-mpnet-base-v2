@@ -1,0 +1,5 @@
+model_id: sentence-transformers/all-mpnet-base-v2
+hf_model_path: models/all-mpnet-base-v2/hf
+tokenizer_path: models/all-mpnet-base-v2
+tensorize: false
+target_model: models/all-mpnet-base-v2/hf
