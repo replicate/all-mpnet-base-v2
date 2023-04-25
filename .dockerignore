@@ -1,0 +1,5 @@
+flan-t5**
+checkpoints/**
+# modify pretrained_weights if you want to build weights into the image
+# models/all-mpnet-base-v2/hf 
+notebooks/

@@ -6,6 +6,7 @@ from cog import BasePredictor, Input, Path, BaseModel
 import torch
 import os
 import time
+import json
 
 from sentence_transformers import SentenceTransformer
 from transformers import AutoTokenizer, AutoModel
@@ -14,9 +15,6 @@ from typing import List, Optional
 import yaml
 
 MODEL_SETUP_CONFIG = "/src/model_setup.yaml"
-
-class EmbeddingList(BaseModel):
-    embedding: List[float]
 
 
 def maybe_download(path):
@@ -93,34 +91,45 @@ class Predictor(BasePredictor):
 
     def predict(
         self,
-        text: str = Input(default=None, description=""),
-        text_batch: bool = Input(default=None, description=""),
+        text: str = Input(default=None, description="A single string to encode."),
+        text_batch: str = Input(default=None, description="A JSON-formatted list of strings to encode."),
 
-    ) -> str:
-        """Run a single prediction on the model"""
+    ) -> List[List[float]]:
+        """
+        Encode a single `text` or a `text_batch` into embeddings.
+
+        Parameters:
+        ----------
+        text : str, optional
+            A single string to encode.
+        text_batch : str, optional
+            A JSON-formatted list of strings to encode.
+
+        Returns:
+        -------
+        List[List[float]]
+            A list of embeddings ordered the same as the inputs.
+        """
 
         # TODO: 
-        # * Get it working: https://github.com/andreasjansson/cog-clip/blob/main/predict.py
-        # * Add support for json
-        # * Update input descriptions
-        # * Update README
         # * Push model
+        # * Update README
+
 
         if text:
             docs = [text]
 
         elif text_batch:
-            docs = docs
+            docs = json.loads(text_batch)
+            print(docs)
 
         embeddings = self.model.encode(docs)
 
         outputs = []
         for embedding in embeddings:
-            outputs.append(EmbeddingList(embedding=[float(x) for x in embedding.tolist()]))
+            outputs.append([float(x) for x in embedding.tolist()])
 
-
-        # print(type(outputs))
-        # print(outputs)
+        return outputs
 
 
 
