@@ -21,6 +21,7 @@ build:
     - "deepspeed==0.8.3"
     - "sentence-transformers==2.2.2"
     - "pyyaml"
+    - "datasets"
 
 # predict.py defines how predictions are run on your model
 predict: "predict.py:Predictor"

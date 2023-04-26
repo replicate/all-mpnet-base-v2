@@ -21,6 +21,12 @@ class Embedding(BaseModel):
     embedding: List[float]
 
 
+def get_gpu_memory():
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    if device.type == 'cuda':
+        return torch.cuda.get_device_properties(device).total_memory
+    return None
+
 def maybe_download(path):
     if path.startswith("gs://"):
         output_path = "/tmp/weights.tensors"
@@ -31,6 +37,7 @@ def maybe_download(path):
 class Predictor(BasePredictor):
     def setup(self, weights: Optional[Path] = None):
             self.device = "cuda" if torch.cuda.is_available() else "cpu"
+            
 
             with open(MODEL_SETUP_CONFIG, 'r') as f:
                 model_args = yaml.safe_load(f)

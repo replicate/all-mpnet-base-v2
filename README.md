@@ -3,6 +3,21 @@
 This is a cog model for the `all-mpnet-base-v2` sentence-transformers embedding model. This embedding model is based on [MPNet](https://arxiv.org/abs/2004.09297) and fine-tuned on 1 billion sentence pairs (see [here](https://huggingface.co/sentence-transformers/all-mpnet-base-v2#:~:text=seb.sbert.net-,Background,-The%20project%20aims) for details). 
 
 
+## Fine-tuning
+
+### Example with NLI and MNLI
+
+Download NLI and MNLI datasets and write them to json format: 
+
+```
+cog run python scripts/download_example_data.py 
+```
+
+Run training: 
+
+```
+cog run python training/trainer.py --data_path ./datasets/nli.json --max_steps 100 
+```
 ## How to setup the cog model
 
 ### Prerequisites
