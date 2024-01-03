@@ -14,8 +14,10 @@ Docker. You'll be using the Cog command-line tool to build and push a model. Cog
 ### Step 0: Install Cog
 First, install Cog:
 
+```
 sudo curl -o /usr/local/bin/cog -L "https://github.com/replicate/cog/releases/latest/download/cog_$(uname -s)_$(uname -m)"
 sudo chmod +x /usr/local/bin/cog
+```
 
 ### Step 1: Set up weights
 
@@ -29,9 +31,9 @@ cog run python scripts/download_and_prepare_model.py --config model_setup.yaml
 ### Step 2: Run the model
 
 You can run the model locally to test it:
-
+```
 cog predict -i text="You may know a word by the company it keeps."
-
+```
 
 Make sure to specify "private" to keep the model private.
 
@@ -45,11 +47,15 @@ Click on the "Settings" tab on your model page, scroll down to "GPU hardware", a
 
 ### Step 5: Push the model to Replicate
 Log in to Replicate:
-
+```
 cog login
-Push the contents of your current directory to Replicate, using the model name you specified in step 3:
+```
 
+Push the contents of your current directory to Replicate, using the model name you specified in step 3:
+```
 cog push r8.im/username/modelname
+```
+
 Learn more about pushing models to Replicate.
 
 ### Step 6: Run the model on Replicate
